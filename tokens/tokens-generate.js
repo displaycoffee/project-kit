@@ -143,7 +143,7 @@ const sd = new StyleDictionary({
 	platforms: {
 		scss: {
 			transformGroup: 'scss',
-			buildPath: 'src/_core/styles/theme/',
+			buildPath: 'src/_core/styles/',
 			files: [
 				{
 					destination: '_root.scss',

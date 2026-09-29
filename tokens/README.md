@@ -19,8 +19,8 @@ Add it as a script in `package.json`:
 It runs from the project root and expects this layout:
 
 - **src/_core/tokens/*.json** - The token source files.
-- **src/_core/styles/theme/_root.scss** - Generated. CSS custom properties on `:root`, including the alternate theme. Only import this once, since it outputs CSS.
-- **src/_core/styles/theme/_theme.scss** - Generated. Sass variables that point to the custom properties, safe to `@use` anywhere.
+- **src/_core/styles/_root.scss** - Generated. CSS custom properties on `:root`, including the alternate theme. Only import this once, since it outputs CSS.
+- **src/_core/styles/_theme.scss** - Generated. Sass variables that point to the custom properties, safe to `@use` anywhere.
 - **src/_core/tokens/theme.json** - Generated. Resolved values grouped by category, for scripts (e.g. `{ "color": { "bg": "#fdfdfd", "bg-dark": "#1a1a1a" } }`).
 
 For a Vite dev server, a plugin can re-run it when token files change. The script's path is exported as `@displaycoffee/tokens/generate`:
