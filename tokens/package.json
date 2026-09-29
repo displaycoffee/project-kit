@@ -1,0 +1,38 @@
+{
+	"name": "@displaycoffee/tokens",
+	"description": "Style Dictionary token generation and theme data helpers.",
+	"version": "1.0.0",
+	"type": "module",
+	"author": "displaycoffee",
+	"license": "ISC",
+	"homepage": "https://github.com/displaycoffee/project-kit/tree/production/tokens#readme",
+	"exports": {
+		".": {
+			"types": "./index.d.ts",
+			"default": "./index.js"
+		},
+		"./generate": "./tokens-generate.js"
+	},
+	"bin": {
+		"tokens-generate": "tokens-generate.js"
+	},
+	"files": [
+		"index.js",
+		"index.d.ts",
+		"tokens-generate.js"
+	],
+	"dependencies": {
+		"style-dictionary": "^5.5.5"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/displaycoffee/project-kit.git",
+		"directory": "tokens"
+	},
+	"bugs": {
+		"url": "https://github.com/displaycoffee/project-kit/issues"
+	},
+	"publishConfig": {
+		"access": "public"
+	}
+}
