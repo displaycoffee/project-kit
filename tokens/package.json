@@ -1,7 +1,7 @@
 {
 	"name": "@displaycoffee/tokens",
 	"description": "Style Dictionary token generation and theme data helpers.",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"type": "module",
 	"author": "displaycoffee",
 	"license": "ISC",

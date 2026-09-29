@@ -1,7 +1,7 @@
 {
 	"name": "@displaycoffee/styles",
 	"description": "Shared Sass functions and mixins.",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"author": "displaycoffee",
 	"license": "ISC",
 	"homepage": "https://github.com/displaycoffee/project-kit/tree/production/styles#readme",
