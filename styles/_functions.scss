@@ -1,0 +1,44 @@
+// Built-in Sass modules
+@use 'sass:math';
+@use 'sass:string';
+
+// PX to EM/REM conversion
+// From https://css-tricks.com/snippets/sass/px-to-em-functions
+@function em($pixels, $unit: em, $context: 16px) {
+	@if (math.is-unitless($pixels)) {
+		$pixels: $pixels * 1px;
+	}
+	@if (math.is-unitless($context)) {
+		$context: $context * 1px;
+	}
+	$multiplier: 1em;
+	@if ($unit == 'rem') {
+		$multiplier: 1rem;
+	}
+	@return calc($pixels / $context * $multiplier);
+}
+
+// Helper function to replace characters in a string
+@function string-replace($string, $search, $replace: '') {
+	$index: string.index($string, $search);
+	$return-string: if(sass($index): string.slice($string, 1, $index - 1) + $replace + string-replace(string.slice($string, $index + string.length($search)), $search, $replace); else: $string);
+	@return $return-string;
+}
+
+// Encode svg (mostly for use in background-image)
+@function svg-encode($svg) {
+	// Add missing namespace
+	@if not string.index($svg, xmlns) {
+		$svg: string-replace($svg, '<svg','<svg xmlns="http://www.w3.org/2000/svg"');
+	}
+
+	// Encode characters in svg
+	$encoded: string-replace($svg, '%', '%25');
+	$encoded: string-replace($encoded, '#', '%23');
+	$encoded: string-replace($encoded, '{', '%7B');
+	$encoded: string-replace($encoded, '}', '%7D');
+	$encoded: string-replace($encoded, '<', '%3C');
+	$encoded: string-replace($encoded, '>', '%3E');
+
+	@return url("data:image/svg+xml, #{$encoded}");
+}

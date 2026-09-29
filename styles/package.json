@@ -1,0 +1,23 @@
+{
+	"name": "@displaycoffee/styles",
+	"description": "Shared Sass functions and mixins.",
+	"version": "1.0.0",
+	"author": "displaycoffee",
+	"license": "ISC",
+	"homepage": "https://github.com/displaycoffee/project-kit/tree/production/styles#readme",
+	"files": [
+		"_functions.scss",
+		"_mixins.scss"
+	],
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/displaycoffee/project-kit.git",
+		"directory": "styles"
+	},
+	"bugs": {
+		"url": "https://github.com/displaycoffee/project-kit/issues"
+	},
+	"publishConfig": {
+		"access": "public"
+	}
+}

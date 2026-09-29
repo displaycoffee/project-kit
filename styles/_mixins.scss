@@ -1,0 +1,418 @@
+// Built-in Sass modules
+@use 'sass:list';
+@use 'sass:map';
+@use 'sass:math';
+@use 'sass:meta';
+
+// Animate
+// Example for $value: spin 2s infinite linear
+@mixin animate($value) {
+	animation: $value;
+}
+
+// Animate - spin
+// Example: use when animating icons with the animate mixin
+@mixin animate-spin {
+	@keyframes spin {
+		0% {
+			@include transform(rotate(0deg));
+		}
+		to {
+			@include transform(rotate(1turn));
+		}
+	}
+}
+
+// Animate - loading
+@mixin animate-loading {
+	@keyframes loading {
+		from {
+			left: -200px;
+			width: 30%;
+		}
+		50% {
+			width: 30%;
+		}
+		70% {
+			width: 70%;
+		}
+		80% {
+			left: 50%;
+		}
+		95% {
+			left: 120%;
+		}
+		to {
+			left: 100%;
+		}
+	}
+}
+
+// Border radius with browser prefixes
+@mixin border-radius($size) {
+	border-radius: $size;
+}
+
+// Clearfix
+@mixin clearfix($selector) {
+	#{$selector}:before, #{$selector}:after {
+		content: '';
+		display: table;
+	}
+	#{$selector}:after {
+		clear: both;
+		zoom: 1;
+	}
+}
+
+// Set text overflow with ellipsis
+@mixin ellipsis {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+// Set flex property
+// $value: grow shrink basis
+// grow    : 1 0 auto
+// base    : 1 1 0%
+// full    : 1 1 100%
+// max     : 0 0 auto
+// adapt   : 1 1 auto
+// default : 0 1 auto
+@mixin flex($value: '') {
+	$var-value: if(sass($value != ''): $value; else: 1 1 0%);
+	flex: $var-value;
+}
+
+// Styles for flex child
+@mixin flex-child($property, $value) {
+	@if $property == 'order' {
+		order: $value;
+	} @else if $property == 'align-self' {
+		align-self: $value;
+	}
+}
+
+// Flex flow (for overrides)
+@mixin flex-direction($direction) {
+	flex-direction: $direction;
+}
+
+// Flex display
+// $type: inline or leave blank
+@mixin flex-display($type: '') {
+	$var-type: if(sass($type != ''): $type; else: flex);
+	display: #{$var-type};
+}
+
+// Flex flow
+// $flow: row/column wrap/nowrap
+@mixin flex-flow($flow: '') {
+	$var-flow: if(sass($flow != ''): $flow; else: row wrap);
+	flex-flow: $var-flow;
+}
+
+// Aligns a flex icon
+@mixin flex-icon-align($align) {
+	@if $align == right {
+		margin-left: auto;
+		order: 2;
+	} @else if $align == left or $align == center {
+		order: -2;
+	}
+}
+
+// Flex layout - sass map of flex properties / values
+// Example: @include mixins.flex-layout((flex-flow: row nowrap, align-items: center)) or @include mixins.flex-layout
+// If map is not defined, defaults to display: flex and flex-flow: row wrap
+@mixin flex-layout($map: ()) {
+	$flow: map.get($map, 'flex-flow');
+	@if $flow {
+		@include flex-flow($flow);
+	} @else {
+		@include flex-flow;
+	}
+	$display: map.get($map, 'display');
+	@if $display == flex or $display == inline-flex {
+		@include flex-display($display);
+	} @else {
+		@include flex-display;
+	}
+	@each $name, $value in $map {
+		@if $name == align-content or $name == align-items or $name == justify-content {
+			@include flex-parent($name, $value);
+		}
+	}
+}
+
+// Styles for flex parent
+@mixin flex-parent($property, $value) {
+	@if $property == 'justify-content' {
+		justify-content: $value;
+	} @else if $property == 'align-items' {
+		align-items: $value;
+	} @else if $property == 'align-content' {
+		align-content: $value;
+	}
+}
+
+// Acts as a spacer for flex alignment
+@mixin flex-spacer-align($align, $spacing) {
+	@include flex(0 0 auto);
+	content: '';
+	@include sizing($spacing, 1px);
+	@if $align == left or $align == center {
+		order: -1;
+	}
+}
+
+// Flex wrap (for overrides)
+@mixin flex-wrap($wrap) {
+	flex-wrap: $wrap;
+}
+
+// For setting bottom padding as height
+@mixin fluid-sizing($bottom: '') {
+	@if $bottom != '' {
+		height: 0;
+		padding-bottom: $bottom;
+		overflow: hidden;
+	}
+}
+
+// Add spacing for grid or flex layouts
+@mixin gap($gap) {
+	gap: $gap;
+}
+
+// Calculate child width when parent has gap (gap calculates differently when child width is a %)
+@mixin gap-width($gap, $columns) {
+	$columns-adjust: $columns - 1;
+	width: calc((100% - ($gap * $columns-adjust)) / $columns);
+}
+
+// Basic linear gradient
+@mixin gradient($color-03, $color-04, $direction-01, $direction-02) {
+	background-color: $color-03;
+	background-image: linear-gradient($direction-01, $color-03, $color-04);
+}
+
+// Gradient - generate strips for gradients
+@mixin gradient-stripes($map) {
+	// Variables for calculating colors for gradients
+	$length: list.length($map);
+	$divider: calc(100 / $length);
+	$separator: ',';
+
+	// Gradients string
+	$gradients: '';
+	$gradients-fallback: '';
+
+	// Loop through colors and process gradient rule
+	@each $color in $map {
+		$index: list.index($map, $color) - 1;
+		$percentage: if(sass($index == 0): ($index + 1) * $divider; else: $index * $divider);
+		@if ($index == 0) {
+			$gradients: $gradients + ($color ($percentage * 1%));
+			$gradients-fallback: $color;
+		} @else {
+			$first-color: $separator $color ($percentage * 1%);
+			$second-color: if(sass($index == $length - 1): ($separator $color); else: ($separator $color (($percentage + $divider) * 1%)));
+			$gradients: $gradients + #{$first-color} + #{$second-color};
+		}
+	}
+
+	// CSS rules
+	background-color: $gradients-fallback;
+	background-image: linear-gradient(#{$gradients});
+}
+
+// Inline block with vertical alignment
+@mixin grid-columns($width) {
+	grid-template-columns: repeat(auto-fill, minmax($width, 1fr));
+}
+
+// Inline block with vertical alignment
+@mixin grid-layout($gap: 5px, $width) {
+	display: grid;
+	@include grid-columns($width);
+	@include gap($gap);
+}
+
+// Resize icons
+@mixin icon-sizing($size) {
+	@if $size != false {
+		@include sizing($size, $size);
+		line-height: $size;
+	}
+}
+
+// Check if shared variables are set before setting css values
+@mixin if-exists($map) {
+	@each $name, $value in $map {
+		@if $name != selector and ($name != '' and $value != false) {
+			#{$name}: $value;
+		}
+	}
+}
+
+// Inline block with vertical alignment
+@mixin inline-block($vertical-align) {
+	display: inline-block;
+	vertical-align: $vertical-align;
+}
+
+// Image base properties
+@mixin image-base {
+	max-width: 100%;
+	max-height: 100%;
+	@include sizing(auto, auto);
+	border: 0;
+	display: block;
+}
+
+// Line clamp settings
+@mixin line-clamp($lines) {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	-webkit-line-clamp: $lines;
+}
+
+// Image / object fit properties
+@mixin object-fit($position, $fit) {
+	object-position: $position;
+	object-fit: $fit;
+}
+
+// Placeholder
+// Examples: @include mixins.placeholder {}, :focus{ @include mixins.placeholder {} }, or input { @include mixins.placeholder {} }
+@mixin placeholder {
+	&::placeholder {@content}
+}
+
+// Mixin for positioning
+@mixin position($type: '', $top: '', $bottom: '', $left: '', $right: '', $z: '') {
+	@if ($type != '') {
+		position: $type;
+	}
+	@if ($top != '') {
+		top: $top;
+	}
+	@if ($bottom != '') {
+		bottom: $bottom;
+	}
+	@if ($left != '') {
+		left: $left;
+	}
+	@if ($right != '') {
+		right: $right;
+	}
+	@if ($z != '') {
+		z-index: $z;
+	}
+}
+
+// Absolute positioning to fill area
+@mixin position-fill($margin: '', $z: '') {
+	$var-margin: if(sass($margin != ''): $margin; else: auto);
+	@include position($type: absolute, $top: 0, $bottom: 0, $right: 0, $left: 0, $z: $z);
+	margin: $var-margin;
+}
+
+// Responsive media query rule
+@mixin respond($breakpoint, $rule: 'min-width') {
+	$unitValues: 'px' 'cm' 'mm' 'in' 'pt' 'pc' 'dpi' 'dpcm' 'dppx' 'em' 'ex' 'rem' '%' 'vw' 'vh' 'vmin' 'vmax';
+	@if not list.index(('min-width', 'max-width'), $rule) {
+		@error "respond() $rule must be 'min-width' or 'max-width', got '#{$rule}'.";
+	}
+	@if list.index($unitValues, math.unit($breakpoint)) == null {
+		$breakpoint: $breakpoint + 'px';
+	}
+	@media only screen and (#{$rule}: $breakpoint) {
+		@content;
+	}
+}
+
+// Scrollbar
+@mixin scrollbar($selector, $width, $height, $s-color-01: '', $s-color-02: '') {
+	#{$selector}::-webkit-scrollbar {
+		width: $width;
+	}
+	#{$selector}::-webkit-scrollbar {
+		height: $height;
+	}
+	@if $s-color-01 != '' {
+		#{$selector}::-webkit-scrollbar-track {
+			background: $s-color-01;
+		}
+	}
+	@if $s-color-02 != '' {
+		#{$selector}::-webkit-scrollbar-thumb {
+			background: $s-color-02;
+		}
+	}
+}
+
+// Quick width and height sizing
+@mixin sizing($width, $height) {
+	width: $width;
+	height: $height;
+}
+
+// Screen reader only (hides elements)
+@mixin sr-only($is-important: false) {
+	$important: if(sass($is-important == true): ' !important'; else: '');
+	position: absolute#{$important};
+	width: 1px#{$important};
+	height: 1px#{$important};
+	padding: 0#{$important};
+	margin: -1px#{$important};
+	overflow: hidden#{$important};
+	clip: rect(0, 0, 0, 0)#{$important};
+	white-space: nowrap#{$important};
+	border: 0#{$important};
+}
+
+// Text-decoration styles - all
+@mixin text-decoration($thickness: 2px, $offset: 2px, $color: inherit) {
+	text-decoration: underline;
+	text-decoration-color: $color;
+	text-decoration-thickness: $thickness;
+	text-underline-offset: $offset;
+}
+
+// Text-decoration styles - color only
+@mixin text-decoration-color($color: inherit) {
+	text-decoration-color: $color;
+}
+
+// For hiding / showing content
+@mixin toggle-content($state, $transition: '') {
+	@if $state == collapsed {
+		opacity: 0;
+		visibility: hidden;
+		@include transform(scaleY(0));
+	}
+	@if $state == expanded {
+		visibility: visible;
+		opacity: 1;
+		@include transform(scaleY(1));
+		transform-origin: top;
+	}
+	@if ($transition == true) {
+		$transform-props: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+		@include transition($transform-props);
+	}
+}
+
+// Transform
+@mixin transform($value) {
+	transform: $value;
+}
+
+// Transition
+@mixin transition($value) {
+	transition: $value;
+}

@@ -1,0 +1,21 @@
+{
+	"name": "project-kit",
+	"description": "A collection of scripts, tokens, and Sass files to use on projects.",
+	"version": "1.0.0",
+	"private": true,
+	"type": "module",
+	"keywords": [],
+	"author": "displaycoffee",
+	"license": "ISC",
+	"homepage": "https://github.com/displaycoffee/project-kit#readme",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/displaycoffee/project-kit.git"
+	},
+	"bugs": {
+		"url": "https://github.com/displaycoffee/project-kit/issues"
+	}
+}
