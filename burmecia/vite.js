@@ -6,6 +6,10 @@ import { fileURLToPath } from 'url';
 /* Paths */
 const tokensScriptPath = fileURLToPath(import.meta.resolve('@displaycoffee/tokens/generate'));
 
+/* CSS build targets: Vite's defaults (Baseline widely available), with Safari / iOS lowered from 16.4 to 16.3 */
+/* Note: Safari 16.3 doesn't support media query range syntax, so Lightning CSS keeps min-width / max-width instead of rewriting them to (width>=768px) */
+export const cssTarget = ['chrome111', 'edge111', 'firefox114', 'safari16.3', 'ios16.3'];
+
 /* Vite plugin that rebuilds tokens when a token file changes during dev, so the regenerated Sass hot reloads like any other change */
 /* Note: theme.json is generated into the tokens folder, so it's ignored to avoid a rebuild loop */
 export const tokensWatch = () => {

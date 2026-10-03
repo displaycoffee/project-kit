@@ -33,13 +33,14 @@ Example `package.json` scripts:
 ### Vite helpers
 
 ```js
-import { assetFileNames, chunkFileNames, entryFileNames, tokensWatch } from '@displaycoffee/burmecia/vite';
+import { assetFileNames, chunkFileNames, cssTarget, entryFileNames, tokensWatch } from '@displaycoffee/burmecia/vite';
 ```
 
 - **tokensWatch()** - A dev-only plugin that re-runs `tokens-generate` from [`@displaycoffee/tokens`](https://www.npmjs.com/package/@displaycoffee/tokens) whenever a token file in `src/_core/tokens` changes.
+- **cssTarget** - CSS build targets for `build.cssTarget`. Vite's defaults with Safari / iOS lowered to 16.3, so Lightning CSS keeps `min-width` / `max-width` media queries instead of rewriting them to range syntax like `(width>=768px)`.
 - **assetFileNames(file)** - Names CSS by route (e.g. `assets/css/styles.page-two.[hash].css`) and other assets by their own name.
 - **chunkFileNames(file)** - Names route chunks by route instead of `index` (e.g. `assets/js/bundle.page-two.lazy.[hash].js`).
 - **entryFileNames()** - Names the entry bundle `assets/js/bundle.[hash].js`.
 - **getRouteName(filePath)** - Gets the route folder a file belongs to, skipping `(group)` folders. Used by the naming helpers.
 
-Pass the naming helpers to `build.rollupOptions.output` in `vite.config.js`.
+Pass `cssTarget` to `build.cssTarget` and the naming helpers to `build.rollupOptions.output` in `vite.config.js`.

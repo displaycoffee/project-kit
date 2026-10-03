@@ -5,6 +5,7 @@ A collection of scripts, tokens, and Sass files shared across projects, so a fix
 ### Packages
 
 - **[burmecia](burmecia)** - [`@displaycoffee/burmecia`](https://www.npmjs.com/package/@displaycoffee/burmecia) - Build scripts (`burmecia src`, `dist`, `public`, `sitemap`) and Vite helpers for Burmecia-based React projects.
+- **[scripts](scripts)** - [`@displaycoffee/scripts`](https://www.npmjs.com/package/@displaycoffee/scripts) - Shared utility functions and React hooks.
 - **[styles](styles)** - [`@displaycoffee/styles`](https://www.npmjs.com/package/@displaycoffee/styles) - Sass helper functions and mixins.
 - **[tokens](tokens)** - [`@displaycoffee/tokens`](https://www.npmjs.com/package/@displaycoffee/tokens) - Style Dictionary token generation (`tokens-generate`) and helpers that shape `theme.json` for the app and build scripts.
 

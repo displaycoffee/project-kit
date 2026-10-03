@@ -1,0 +1,42 @@
+{
+	"name": "@displaycoffee/scripts",
+	"description": "Shared utility functions and React hooks.",
+	"version": "1.0.0",
+	"type": "module",
+	"author": "displaycoffee",
+	"license": "ISC",
+	"homepage": "https://github.com/displaycoffee/project-kit/tree/production/scripts#readme",
+	"exports": {
+		"./hooks": "./hooks.ts",
+		"./hooks-tanstack": "./hooks-tanstack.ts",
+		"./utils": "./utils.ts",
+		"./utils-types": "./utils-types.d.ts"
+	},
+	"files": [
+		"hooks.ts",
+		"hooks-tanstack.ts",
+		"utils-types.d.ts",
+		"utils.ts"
+	],
+	"peerDependencies": {
+		"@tanstack/react-router": "^1.0.0",
+		"react": "^19.0.0",
+		"react-dom": "^19.0.0"
+	},
+	"peerDependenciesMeta": {
+		"@tanstack/react-router": {
+			"optional": true
+		}
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/displaycoffee/project-kit.git",
+		"directory": "scripts"
+	},
+	"bugs": {
+		"url": "https://github.com/displaycoffee/project-kit/issues"
+	},
+	"publishConfig": {
+		"access": "public"
+	}
+}
