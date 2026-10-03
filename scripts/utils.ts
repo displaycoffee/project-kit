@@ -16,22 +16,16 @@ export const utils: UtilsType = {
 	},
 	handleize: (value) => {
 		// Format value for html classes
-		return value
-			.toLowerCase()
-			.trim()
-			.replace(/[^\w\s]/g, '')
-			.replace(/\s/g, '-');
+		return value.toLowerCase().trim().replace(/[^\w\s]/g, '').replace(/\s/g, '-').replace(/-+/g, '-');
 	},
 	stripHTML: (string) => {
 		// Remove HTML from string
 		if (!string) return '';
-		return string
-			.replace(/\n/g, ' ')
-			.replace(/<[^>]*>/g, '')
-			.trim();
+		return string.replace(/\n/g, ' ').replace(/<[^>]*>/g, '').trim();
 	},
 	truncate: (string, limit) => {
 		// Limit characters in string
+		if (!string) return '';
 		if (string.length > limit) {
 			return `${string.slice(0, limit - 3)}...`;
 		} else {

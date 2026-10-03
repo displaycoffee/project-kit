@@ -33,8 +33,8 @@ Safe anywhere, including server rendering.
 
 - **getLast(value, delimeter?)** - Last item of an array, or of a string split by `delimeter`.
 - **handleize(value)** - Formats a string for HTML classes (e.g. `Page One!` to `page-one`).
-- **stripHTML(string)** - Removes HTML tags and newlines.
-- **truncate(string, limit)** - Cuts a string to `limit` characters, ending with `...`.
+- **stripHTML(string)** - Removes HTML tags and newlines. Returns an empty string for `null` / `undefined`.
+- **truncate(string, limit)** - Cuts a string to `limit` characters, ending with `...`. Returns an empty string for `null` / `undefined`.
 
 ### utilsBrowser
 

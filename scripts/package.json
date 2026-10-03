@@ -1,7 +1,7 @@
 {
 	"name": "@displaycoffee/scripts",
 	"description": "Shared utility functions and React hooks.",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"type": "module",
 	"author": "displaycoffee",
 	"license": "ISC",

@@ -28,9 +28,9 @@ type UtilsScrollTo = (e?: SyntheticEvent | Event, selector?: string, offset?: nu
 
 type UtilsSetAttributes = (element: HTMLElement, attributes: { [key: string]: string }) => void;
 
-type UtilsStripHTML = (string: string) => string;
+type UtilsStripHTML = (string?: string | null) => string;
 
-type UtilsTruncate = (string: string, limit: number) => string;
+type UtilsTruncate = (string: string | null | undefined, limit: number) => string;
 
 /* Export types */
 export type UtilsType = Utils;
