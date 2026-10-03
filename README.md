@@ -16,13 +16,14 @@ A collection of scripts, tokens, and Sass files shared across projects, so a fix
 
 ### Publishing
 
-1. Update `version` in the package's `package.json` (patch for fixes, minor for additions, major for breaking changes). If it's a major version, update the ranges in the projects too.
+1. Update `version` in the package's `package.json` (patch for fixes, minor for additions, major for breaking changes). If it's a major version, or a project starts using something added in the new version, update the ranges in those projects too (e.g. `^1.0.0` to `^1.1.0`).
 2. Commit and push.
 3. Publish from inside the package folder, e.g. `cd styles && npm publish`. Running `npm publish -w styles` from this folder doesn't work, since the workspaces are set up in `projects/package.json`.
 4. Check it with `npm view @displaycoffee/styles version`. A brand-new package can take a few minutes before this stops returning a 404.
 
 Notes:
 
+- Vercel reuses `node_modules` from the previous deploy, and the projects don't commit a lockfile, so npm only upgrades a package when the installed version no longer matches the range. A project that needs a new version but still says `^1.0.0` keeps the cached `1.0.0` and the build fails (e.g. `does not provide an export named 'cssTarget'`). Raising the range fixes it.
 - A published version can never be reused, even after unpublishing, so double-check with `npm publish --dry-run` first.
 - The root `package.json` is `private` so it never gets published. The packages set `"publishConfig": { "access": "public" }` because scoped packages are private by default.
 - `bin` paths can't start with `./` (e.g. `"tokens-generate": "tokens-generate.js"`), or npm quietly removes the command when publishing.
