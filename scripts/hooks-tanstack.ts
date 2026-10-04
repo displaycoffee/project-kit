@@ -1,7 +1,69 @@
 /* Packages */
-import type { MouseEvent } from 'react';
+import type { MouseEvent, RefObject } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
 import { flushSync } from 'react-dom';
 import { useLocation, useNavigate } from '@tanstack/react-router';
+
+export const useAvailableMinHeight = (ref: RefObject<HTMLElement | null>) => {
+	// main persists across routes, so a stale min-height can hold it at the old size and mask
+	// the resize from ResizeObserver. Re-run on pathname change to force a fresh measurement.
+	const location = useLocation();
+
+	// Reserves exactly the viewport space around this element — regardless of what surrounds it,
+	// or how many pieces (header, nav, footer, none of the above) — so content mounting in later
+	// doesn't shift whatever comes after it. Sets min-height directly, no CSS-side setup needed.
+	useLayoutEffect(() => {
+		const element = ref.current;
+		if (!element) return;
+
+		const updateMinHeight = () => {
+			// Temporarily clear so this element's own current height can't feed back into the
+			// measurement (its min-height from a prior run would otherwise inflate scrollHeight)
+			element.style.minHeight = '';
+
+			const rect = element.getBoundingClientRect();
+			const spaceAbove = rect.top + window.scrollY;
+			const spaceBelow = document.documentElement.scrollHeight - (rect.bottom + window.scrollY);
+			const minHeight = Math.max(0, window.innerHeight - spaceAbove - spaceBelow);
+
+			element.style.minHeight = `${minHeight}px`;
+		};
+
+		// Set it synchronously before paint too — ResizeObserver's first callback is only
+		// guaranteed to fire eventually, not synchronously ahead of the next paint
+		updateMinHeight();
+
+		// Watch the whole page rather than individual siblings — anything that changes the
+		// page's total height (header, nav, footer, main's own content, none of the above)
+		// should trigger a recompute, without this hook needing to know what those things are
+		const observer = new ResizeObserver(updateMinHeight);
+		observer.observe(document.body);
+		window.addEventListener('resize', updateMinHeight);
+
+		return () => {
+			observer.disconnect();
+			window.removeEventListener('resize', updateMinHeight);
+		};
+	}, [ref, location.pathname]);
+};
+
+/* Variables for useBodyClass */
+const bodyPrefix = 'page-';
+
+export const useBodyClass = (defaultPrefix: string) => {
+	// Adds a page-* class to body for the current route, e.g. /some/path becomes page-some-path
+	const location = useLocation();
+
+	useEffect(() => {
+		// Replace any body prefix, remove first slash, and replace any other slash with hyphen
+		const page = location.pathname.replace(bodyPrefix, '').replace(/\/+$/, '').replace('/', '').replace(/\//g, '-');
+		const className = `${bodyPrefix}${page || defaultPrefix}`;
+
+		// Add new body class, and remove it again when the route changes or the component unmounts
+		document.body.classList.add(className);
+		return () => document.body.classList.remove(className);
+	}, [location.pathname, defaultPrefix]);
+};
 
 export const useViewTransition = () => {
 	// Custom hook to use View Transitions API
