@@ -4,6 +4,7 @@ A collection of scripts, tokens, and Sass files shared across projects, so a fix
 
 ### Packages
 
+- **[alexandria](alexandria)** - [`@displaycoffee/alexandria`](https://www.npmjs.com/package/@displaycoffee/alexandria) - Dev and build scripts (`alexandria dev`, `icons`), a Next.js config helper, and head helpers for Alexandria-based Next.js projects.
 - **[burmecia](burmecia)** - [`@displaycoffee/burmecia`](https://www.npmjs.com/package/@displaycoffee/burmecia) - Build scripts (`burmecia src`, `dist`, `public`, `sitemap`) and Vite helpers for Burmecia-based React projects.
 - **[scripts](scripts)** - [`@displaycoffee/scripts`](https://www.npmjs.com/package/@displaycoffee/scripts) - Shared utility functions and React hooks.
 - **[styles](styles)** - [`@displaycoffee/styles`](https://www.npmjs.com/package/@displaycoffee/styles) - Sass helper functions and mixins.

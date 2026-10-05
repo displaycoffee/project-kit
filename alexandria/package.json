@@ -1,0 +1,46 @@
+{
+	"name": "@displaycoffee/alexandria",
+	"description": "Dev and build scripts, Next.js config, and head helpers for Alexandria-based Next.js projects.",
+	"version": "1.0.0",
+	"type": "module",
+	"author": "displaycoffee",
+	"license": "ISC",
+	"homepage": "https://github.com/displaycoffee/project-kit/tree/production/alexandria#readme",
+	"exports": {
+		"./layout/head": "./layout/head/head.ts",
+		"./next": "./next.js"
+	},
+	"bin": {
+		"alexandria": "cli.js"
+	},
+	"files": [
+		"cli.js",
+		"layout",
+		"next.d.ts",
+		"next.js",
+		"scripts"
+	],
+	"engines": {
+		"node": ">=22.18.0"
+	},
+	"dependencies": {
+		"@displaycoffee/tokens": "^2.0.0",
+		"@iconify/utils": "^3.1.7"
+	},
+	"peerDependencies": {
+		"next": "^16.0.0",
+		"prettier": "^3.0.0",
+		"react-dom": "^19.0.0"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/displaycoffee/project-kit.git",
+		"directory": "alexandria"
+	},
+	"bugs": {
+		"url": "https://github.com/displaycoffee/project-kit/issues"
+	},
+	"publishConfig": {
+		"access": "public"
+	}
+}
