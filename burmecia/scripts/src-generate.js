@@ -15,6 +15,13 @@ const { settings } = await importData('settings');
 const { site } = await importData('site');
 const { targets } = await importData('targets');
 
+/* Subtract 1 from a breakpoint like '768px' while keeping its unit, matching Sass's $breakpoint - 1 for max-width rules */
+const belowBreakpoint = (breakpoint) => {
+	const value = parseFloat(breakpoint);
+	const unit = String(breakpoint).replace(/^-?[\d.]+/, '');
+	return `${value - 1}${unit}`;
+};
+
 /* The template ships with this package, next to this script */
 const templatePath = path.resolve(import.meta.dirname, 'src-template.html');
 const htmlPath = path.resolve('./src/index.html');
@@ -103,17 +110,13 @@ if (fs.existsSync(templatePath)) {
 		<style id="preloaded-styles">
 			${fallbackFaces.join('')}
 			${fontFaces.join('')}
-			.hide-mobile {
-				display: none;
-			}
-			.hide-desktop {
-				display: block;
+			@media only screen and (max-width: ${belowBreakpoint(breakpoints.md)}) {
+				html body .hide-mobile {
+					display: none;
+				}
 			}
 			@media only screen and (min-width: ${breakpoints.md}) {
-				.hide-mobile {
-					display: block;
-				}
-				.hide-desktop {
+				html body .hide-desktop {
 					display: none;
 				}
 			}
