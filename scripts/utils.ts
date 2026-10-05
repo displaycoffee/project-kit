@@ -35,10 +35,6 @@ export const utils: UtilsType = {
 };
 
 export const utilsBrowser: UtilsBrowserType = {
-	getPage: () => {
-		// Get previous / parent page
-		return window.location.pathname.split('/').slice(0, -1).join('/');
-	},
 	isSticky: (element, stickyClass) => {
 		if (element) {
 			// Create options and callback for observer

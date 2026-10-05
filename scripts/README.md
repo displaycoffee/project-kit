@@ -40,7 +40,6 @@ Safe anywhere, including server rendering.
 
 These use `window` / `document`, so only call them in `useEffect` or event handlers, never during render.
 
-- **getPage()** - Path of the parent page (e.g. `/page-two` from `/page-two/child-page-one`).
 - **isSticky(element, stickyClass)** - Toggles `stickyClass` while the element is stuck. Returns a cleanup function that stops observing.
 - **scrollTo(e?, selector?, offset?)** - Smooth scrolls to an element (or the top) and moves focus to it.
 - **setAttributes(element, attributes)** - Sets several attributes at once.

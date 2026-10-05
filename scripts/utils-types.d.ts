@@ -10,15 +10,12 @@ type Utils = {
 };
 
 type UtilsBrowser = {
-	getPage: UtilsGetPage;
 	isSticky: UtilsIsSticky;
 	scrollTo: UtilsScrollTo;
 	setAttributes: UtilsSetAttributes;
 };
 
 type UtilsGetLast = (value: string | string[], delimeter?: string) => string;
-
-type UtilsGetPage = () => string;
 
 type UtilsHandleize = (value: string) => string;
 
@@ -38,8 +35,6 @@ export type UtilsType = Utils;
 export type UtilsBrowserType = UtilsBrowser;
 
 export type UtilsGetLastType = UtilsGetLast;
-
-export type UtilsGetPageType = UtilsGetPage;
 
 export type UtilsHandleizeType = UtilsHandleize;
 
