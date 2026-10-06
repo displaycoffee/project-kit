@@ -79,4 +79,38 @@ export const utilsBrowser: UtilsBrowserType = {
 			element.setAttribute(attribute, attributes[attribute]);
 		}
 	},
+	setAvailableMinHeight: (element) => {
+		// Reserves exactly the viewport space around this element — regardless of what surrounds it,
+		// or how many pieces (header, nav, footer, none of the above) — so content mounting in later
+		// doesn't shift whatever comes after it. Sets min-height directly, no CSS-side setup needed.
+		const updateMinHeight = () => {
+			// Temporarily clear so this element's own current height can't feed back into the
+			// measurement (its min-height from a prior run would otherwise inflate scrollHeight)
+			element.style.minHeight = '';
+
+			const rect = element.getBoundingClientRect();
+			const spaceAbove = rect.top + window.scrollY;
+			const spaceBelow = document.documentElement.scrollHeight - (rect.bottom + window.scrollY);
+			const minHeight = Math.max(0, window.innerHeight - spaceAbove - spaceBelow);
+
+			element.style.minHeight = `${minHeight}px`;
+		};
+
+		// Set it synchronously before paint too — ResizeObserver's first callback is only
+		// guaranteed to fire eventually, not synchronously ahead of the next paint
+		updateMinHeight();
+
+		// Watch the whole page rather than individual siblings — anything that changes the
+		// page's total height (header, nav, footer, the element's own content, none of the above)
+		// should trigger a recompute, without this needing to know what those things are
+		const observer = new ResizeObserver(updateMinHeight);
+		observer.observe(document.body);
+		window.addEventListener('resize', updateMinHeight);
+
+		// Return cleanup so callers can stop watching (e.g. in a useLayoutEffect cleanup)
+		return () => {
+			observer.disconnect();
+			window.removeEventListener('resize', updateMinHeight);
+		};
+	},
 };
