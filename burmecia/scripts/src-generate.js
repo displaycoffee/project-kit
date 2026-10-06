@@ -90,9 +90,8 @@ if (fs.existsSync(templatePath)) {
 	// Update head
 	// Create head meta, links and scripts
 	const head = `
-		<title>${site.name}</title>
 		<meta charset="utf-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+		<title>${site.name}</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="description" content="${site.description}" />
 		<meta property="og:title" content="${site.name}" />

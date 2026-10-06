@@ -1,7 +1,7 @@
 {
 	"name": "@displaycoffee/burmecia",
 	"description": "Build scripts and Vite helpers for Burmecia-based React projects.",
-	"version": "1.1.1",
+	"version": "1.1.2",
 	"type": "module",
 	"author": "displaycoffee",
 	"license": "ISC",
